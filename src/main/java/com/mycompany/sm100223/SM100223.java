@@ -6,7 +6,7 @@ package com.mycompany.sm100223;
 
 /**
  *
- * @author Wilmer
+ * @author Wilmer Salazar - SM100223
  */
 public class SM100223 {
 
