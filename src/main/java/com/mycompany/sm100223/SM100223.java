@@ -11,6 +11,8 @@ package com.mycompany.sm100223;
 public class SM100223 {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        Restaurante restaurante = new Restaurante();
+        InterfazUsuario interfaz = new InterfazUsuario(restaurante);
+        interfaz.mostrarMenuPrincipal();
     }
 }
