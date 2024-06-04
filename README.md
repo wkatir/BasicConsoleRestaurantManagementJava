@@ -41,6 +41,16 @@ Este proyecto tiene como objetivo desarrollar un sistema de gestión de clientes
 
 ![Diagrama de Clases](diagramas/diagrama-clases.png)
 
+## Diagrama de Secuencia
+
+![Menú 1](diagramas/MENU.png)
+
+![Menú 2](diagramas/MENU1.png)
+
+![Menú 3](diagramas/MENU2.png)
+
+![Menú 4](diagramas/MENU3.png)
+
 ## Contribución
 
 Si deseas contribuir a este proyecto, puedes seguir los siguientes pasos:
