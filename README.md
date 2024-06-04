@@ -43,6 +43,10 @@ Este proyecto tiene como objetivo desarrollar un sistema de gestión de clientes
 
 ![Diagrama de Clases](diagramas/diagrama-clases.png)
 
+## Video
+
+![Video](diagramas/03.06.2024_21.30.47_REC.mp4)
+
 ## MenúS
 
 ![Menú 1](diagramas/MENU.png)
