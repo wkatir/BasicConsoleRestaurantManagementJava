@@ -1,5 +1,7 @@
 # Sistema de Gestión de Clientes para un Restaurante
 
+Wilmer Salazar
+
 Este proyecto tiene como objetivo desarrollar un sistema de gestión de clientes para un restaurante utilizando Java y los principios de la Programación Orientada a Objetos (POO). El sistema permite al restaurante llevar un registro de sus clientes, gestionar sus reservaciones, tomar pedidos y brindar un servicio más eficiente.
 
 ## Características principales
@@ -41,7 +43,7 @@ Este proyecto tiene como objetivo desarrollar un sistema de gestión de clientes
 
 ![Diagrama de Clases](diagramas/diagrama-clases.png)
 
-## Diagrama de Secuencia
+## MenúS
 
 ![Menú 1](diagramas/MENU.png)
 
@@ -50,6 +52,14 @@ Este proyecto tiene como objetivo desarrollar un sistema de gestión de clientes
 ![Menú 3](diagramas/MENU2.png)
 
 ![Menú 4](diagramas/MENU3.png)
+
+## Uso del Sistema
+
+El sistema se ejecuta a través de la clase InterfazUsuario. Al iniciar la aplicación, se muestra el menú principal, donde el usuario puede seleccionar las opciones para gestionar clientes, reservaciones y pedidos.
+
+Cada opción del menú principal conduce a un submenú específico, donde el usuario puede realizar las operaciones correspondientes, como registrar un nuevo cliente, realizar una reservación, tomar un pedido, etc.
+
+El sistema utiliza la entrada del usuario a través de la consola y realiza las operaciones solicitadas interactuando con las clases Restaurante, Cliente, Bebida y otras clases relacionadas.
 
 ## Contribución
 
