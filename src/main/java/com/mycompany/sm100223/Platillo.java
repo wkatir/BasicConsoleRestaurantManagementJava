@@ -63,4 +63,13 @@ public class Platillo {
     public void setPrecio(double precio) {
         this.precio = precio;
     }
+    
+    @Override
+    public String toString() {
+        return "Platillo{" +
+                "nombre='" + nombre + '\'' +
+                ", precio=" + precio +
+                '}';
+    }
+
 }

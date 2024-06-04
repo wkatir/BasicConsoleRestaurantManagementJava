@@ -5,6 +5,7 @@
 package com.mycompany.sm100223;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -268,165 +269,177 @@ public class InterfazUsuario {
        }
    }
 
-   private void realizarReservacion() {
-       System.out.print("Ingrese el nombre del cliente: ");
-       String nombreCliente = scanner.nextLine();
-       Cliente cliente = buscarCliente(nombreCliente);
+  private void realizarReservacion() {
+    System.out.print("Ingrese el nombre del cliente: ");
+    String nombreCliente = scanner.nextLine();
+    Cliente cliente = buscarCliente(nombreCliente);
 
-       if (cliente != null) {
-           LocalDateTime fecha;
-           int numerPersonas;
+    if (cliente != null) {
+        LocalDateTime fecha;
+        int numeroPersonas;
 
-           try {
-               System.out.print("Ingrese la fecha de la reservación (yyyy-MM-dd HH:mm): ");
-               fecha = LocalDateTime.parse(scanner.nextLine());
-           } catch (DateTimeParseException e) {
-               System.out.println("Formato de fecha incorrecto. Intente nuevamente.");
-               return;
-           }
+        try {
+            System.out.print("Ingrese la fecha de la reservación (yyyy-MM-dd HH:mm): (Ejemplo: 2024-06-03 18:00): ");
+            String fechaString = scanner.nextLine();
+            fecha = LocalDateTime.parse(fechaString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        } catch (DateTimeParseException e) {
+            System.out.println("Formato de fecha incorrecto. Intente nuevamente.");
+            return;
+        }
 
-           try {
-               System.out.print("Ingrese el número de personas: ");
-               numerPersonas = scanner.nextInt();
-               scanner.nextLine(); 
-           } catch (InputMismatchException e) {
-               System.out.println("Número de personas inválido. Intente nuevamente.");
-               scanner.nextLine(); 
-               return;
-           } catch (NoSuchElementException e) {
-               System.out.println("Error de entrada. Intente nuevamente.");
-               scanner = new Scanner(System.in);
-               return;
-           }
-
-           Reservacion nuevaReservacion = new Reservacion(fecha, numerPersonas, cliente);
-           try {
-               restaurante.realizarReservacion(nuevaReservacion);
-               System.out.println("Reservación realizada exitosamente.");
-           } catch (IllegalArgumentException e) {
-               System.out.println("Error: " + e.getMessage());
-           }
-       } else {
-           System.out.println("No se encontró el cliente.");
-       }
-   }
-
-   private void actualizarReservacion() {
-       System.out.print("Ingrese el nombre del cliente de la reservación a actualizar: ");
-       String nombreCliente = scanner.nextLine();
-       Cliente cliente = buscarCliente(nombreCliente);
-
-       if (cliente != null) {
-           ArrayList<Reservacion> reservaciones = restaurante.obtenerReservaciones();
-           ArrayList<Reservacion> reservacionesCliente = new ArrayList<>();
-
-           for (Reservacion reservacion : reservaciones) {
-               if (reservacion.getCliente().equals(cliente)) {
-                   reservacionesCliente.add(reservacion);
-               }
-           }
-
-           if (!reservacionesCliente.isEmpty()) {
-               System.out.println("Reservaciones del cliente:");
-               for (int i = 0; i < reservacionesCliente.size(); i++) {
-                   Reservacion reservacion = reservacionesCliente.get(i);
-                   System.out.println((i + 1) + ". Fecha: " + reservacion.getFecha() +
-                           ", Número de personas: " + reservacion.getNumerPersonas());
-               }
-
-               System.out.print("Ingrese el número de la reservación a actualizar: ");
-               int numReservacion = scanner.nextInt();
-               scanner.nextLine(); 
-
-               try {
-                   if (numReservacion > 0 && numReservacion <= reservacionesCliente.size()) {
-                       Reservacion reservacionActual = reservacionesCliente.get(numReservacion - 1);
-                       System.out.print("Ingrese la nueva fecha de la reservación (yyyy-MM-dd HH:mm): ");
-                       LocalDateTime nuevaFecha = LocalDateTime.parse(scanner.nextLine());
-                       System.out.print("Ingrese el nuevo número de personas: ");
-                       int nuevoNumerPersonas = scanner.nextInt();
-                       scanner.nextLine(); 
-
-                       Reservacion nuevaReservacion = new Reservacion(nuevaFecha, nuevoNumerPersonas, cliente);
-                       try {
-                           restaurante.actualizarReservacion(reservacionActual, nuevaReservacion);
-                           System.out.println("Reservación actualizada exitosamente.");
-                       } catch (IllegalArgumentException e) {
-                           System.out.println("Error: " + e.getMessage());
-                       }
-                   } else {
-                       System.out.println("Número de reservación inválido.");
-                   }
-               } catch (InputMismatchException e) {
-                   System.out.println("Entrada inválida. Intente nuevamente.");
-                   scanner.nextLine();
-               } catch (DateTimeParseException e) {
-                   System.out.println("Formato de fecha incorrecto. Intente nuevamente.");
-               } catch (NoSuchElementException e) {
-                   System.out.println("Error de entrada. Intente nuevamente.");
-                   scanner = new Scanner(System.in);
-               }
-           } else {
-               System.out.println("No se encontraron reservaciones para el cliente.");
-           }
-       } else {
-           System.out.println("No se encontró el cliente.");
-       }
-   }
-
-   private void cancelarReservacion() {
-       System.out.print("Ingrese el nombre del cliente de la reservación a cancelar: ");
-       String nombreCliente = scanner.nextLine();
-       Cliente cliente = buscarCliente(nombreCliente);
-
-       if (cliente != null) {
-           ArrayList<Reservacion> reservaciones = restaurante.obtenerReservaciones();
-           ArrayList<Reservacion> reservacionesCliente = new ArrayList<>();
-
-           for (Reservacion reservacion : reservaciones) {
-               if (reservacion.getCliente().equals(cliente)) {
-                   reservacionesCliente.add(reservacion);
-               }
-           }
-
-           if (!reservacionesCliente.isEmpty()) {
-               System.out.println("Reservaciones del cliente:");
-               for (int i = 0; i < reservacionesCliente.size(); i++) {
-                   Reservacion reservacion = reservacionesCliente.get(i);
-                   System.out.println((i + 1) + ". Fecha: " + reservacion.getFecha() +
-                           ", Número de personas: " + reservacion.getNumerPersonas());
-               }
-
-               System.out.print("Ingrese el número de la reservación a cancelar: ");
-               int numReservacion = scanner.nextInt();
-               scanner.nextLine(); 
-
-               try {
-                   if (numReservacion > 0 && numReservacion <= reservacionesCliente.size()) {
-                       Reservacion reservacion = reservacionesCliente.get(numReservacion - 1);
-                       try {
-                           restaurante.cancelarReservacion(reservacion);
-                           System.out.println("Reservación cancelada exitosamente.");
-                       } catch (IllegalArgumentException e) {
-                           System.out.println("Error: " + e.getMessage());
-                       }
-                   } else {
-                       System.out.println("Número de reservación inválido.");
-                   }
-               } catch (InputMismatchException e){
-            System.out.println("Entrada inválida. Intente nuevamente.");
-            scanner.nextLine(); 
-            } catch (NoSuchElementException e) {
+        try {
+            System.out.print("Ingrese el número de personas: ");
+            numeroPersonas = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+        } catch (InputMismatchException e) {
+            System.out.println("Número de personas inválido. Intente nuevamente.");
+            scanner.nextLine(); // Consumir el salto de línea
+            return;
+        } catch (NoSuchElementException e) {
             System.out.println("Error de entrada. Intente nuevamente.");
             scanner = new Scanner(System.in);
+            return;
+        }
+
+        Reservacion nuevaReservacion = new Reservacion(fecha, numeroPersonas, cliente);
+        try {
+            restaurante.realizarReservacion(nuevaReservacion);
+            System.out.println("Reservación realizada exitosamente.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    } else {
+        System.out.println("No se encontró el cliente.");
+    }
+}
+
+
+   private void actualizarReservacion() {
+    System.out.print("Ingrese el nombre del cliente de la reservación a actualizar: ");
+    String nombreCliente = scanner.nextLine();
+    Cliente cliente = buscarCliente(nombreCliente);
+    if (cliente != null) {
+        ArrayList<Reservacion> reservaciones = restaurante.obtenerReservaciones();
+        ArrayList<Reservacion> reservacionesCliente = new ArrayList<>();
+        for (Reservacion reservacion : reservaciones) {
+            if (reservacion.getCliente().equals(cliente)) {
+                reservacionesCliente.add(reservacion);
+            }
+        }
+        if (!reservacionesCliente.isEmpty()) {
+            System.out.println("Reservaciones del cliente:");
+            for (int i = 0; i < reservacionesCliente.size(); i++) {
+                Reservacion reservacion = reservacionesCliente.get(i);
+                System.out.println((i + 1) + ". Fecha: " + reservacion.getFecha() +
+                        ", Número de personas: " + reservacion.getNumerPersonas());
+            }
+            System.out.print("Ingrese el número de la reservación a actualizar: ");
+            int numReservacion = scanner.nextInt();
+            scanner.nextLine();
+            try {
+                if (numReservacion > 0 && numReservacion <= reservacionesCliente.size()) {
+                    Reservacion reservacionActual = reservacionesCliente.get(numReservacion - 1);
+                    System.out.print("Ingrese la nueva fecha de la reservación (yyyy-MM-dd HH:mm): ");
+                    String fechaString = scanner.nextLine();
+                    LocalDateTime nuevaFecha;
+                    try {
+                        nuevaFecha = LocalDateTime.parse(fechaString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Formato de fecha incorrecto. Intente nuevamente.");
+                        return;
+                    }
+                    int nuevoNumerPersonas;
+                    try {
+                        System.out.print("Ingrese el nuevo número de personas: ");
+                        nuevoNumerPersonas = scanner.nextInt();
+                        scanner.nextLine(); // Consumir el salto de línea
+                    } catch (InputMismatchException e) {
+                        System.out.println("Número de personas inválido. Intente nuevamente.");
+                        scanner.nextLine(); // Consumir la entrada incorrecta
+                        return;
+                    }
+                    Reservacion nuevaReservacion = new Reservacion(nuevaFecha, nuevoNumerPersonas, cliente);
+                    try {
+                        restaurante.actualizarReservacion(reservacionActual, nuevaReservacion);
+                        System.out.println("Reservación actualizada exitosamente.");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
+                } else {
+                    System.out.println("Número de reservación inválido.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Intente nuevamente.");
+                scanner.nextLine();
+            } catch (NoSuchElementException e) {
+                System.out.println("Error de entrada. Intente nuevamente.");
+                scanner = new Scanner(System.in);
             }
         } else {
-        System.out.println("No se encontraron reservaciones para el cliente.");
+            System.out.println("No se encontraron reservaciones para el cliente.");
         }
-        } else {
+    } else {
         System.out.println("No se encontró el cliente.");
-        }   
-   }
+    }
+}
+
+
+  private void cancelarReservacion() {
+    System.out.print("Ingrese el nombre del cliente de la reservación a cancelar: ");
+    String nombreCliente = scanner.nextLine();
+    Cliente cliente = buscarCliente(nombreCliente);
+
+    if (cliente != null) {
+        ArrayList<Reservacion> reservaciones = restaurante.obtenerReservaciones();
+        ArrayList<Reservacion> reservacionesCliente = new ArrayList<>();
+
+        for (Reservacion reservacion : reservaciones) {
+            if (reservacion.getCliente().equals(cliente)) {
+                reservacionesCliente.add(reservacion);
+            }
+        }
+
+        if (!reservacionesCliente.isEmpty()) {
+            System.out.println("Reservaciones del cliente:");
+            for (int i = 0; i < reservacionesCliente.size(); i++) {
+                Reservacion reservacion = reservacionesCliente.get(i);
+                System.out.println((i + 1) + ". Fecha: " + reservacion.getFecha() +
+                                ", Número de personas: " + reservacion.getNumerPersonas());
+            }
+
+            System.out.print("Ingrese el número de la reservación a cancelar: ");
+            int numReservacion = scanner.nextInt();
+             scanner.nextLine();
+
+            try {
+                if (numReservacion > 0 && numReservacion <= reservacionesCliente.size()) {
+                    Reservacion reservacion = reservacionesCliente.get(numReservacion - 1);
+                    try {
+                        restaurante.cancelarReservacion(reservacion);
+                        System.out.println("Reservación cancelada exitosamente.");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
+                } else {
+                    System.out.println("Número de reservación inválido.");
+                }
+            } catch (InputMismatchException e){
+                System.out.println("Entrada inválida. Intente nuevamente.");
+         scanner.nextLine();
+            } catch (NoSuchElementException e) {
+                System.out.println("Error de entrada. Intente nuevamente.");
+                scanner = new Scanner(System.in);
+            }
+        } else {
+            System.out.println("No se encontraron reservaciones para el cliente.");
+        }
+    } else {
+        System.out.println("No se encontró el cliente.");
+    }
+}
+
+   
+   
     private void listarReservaciones() {
     ArrayList<Reservacion> reservaciones = restaurante.obtenerReservaciones();
     if (reservaciones.isEmpty()) {

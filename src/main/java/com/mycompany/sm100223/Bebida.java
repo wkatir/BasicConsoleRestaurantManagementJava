@@ -63,5 +63,14 @@ public class Bebida {
     public void setPrecio(double precio) {
         this.precio = precio;
     }
+    
+      @Override
+    public String toString() {
+        return "Bebida{" +
+                "nombre='" + nombre + '\'' +
+                ", precio=" + precio +
+                '}';
+    }
+    
 }
 
