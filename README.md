@@ -45,7 +45,7 @@ Este proyecto tiene como objetivo desarrollar un sistema de gestión de clientes
 
 ## Video
 
-![Video](diagramas/03.06.2024_21.30.47_REC.mp4)
+https://drive.google.com/drive/folders/1P-lG7JtyECDZxqNu3xu-VM9n2FJttLrg?usp=sharing
 
 ## MenúS
 
